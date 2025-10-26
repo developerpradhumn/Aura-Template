@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Premium Business Solutions</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Aura builds world-class digital solutions in AI, consulting, and design. We are the strategic partner for high-end clients and forward-thinking enterprises.">
+    <meta name="keywords" content="Aura, SaaS, AI, Consulting, Fintech, Marketing, Agency, Premium, Luxury, Web Design">
+    <meta name="author" content="Aura Inc.">
+
+    <!-- Favicon (using an emoji for simplicity, replace with your own .ico) -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- three.js for Hero Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* Base styling */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            background-color: #000000;
+            color: #F3F4F6;
+            /* text-gray-100 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Hero particle canvas */
+        #hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            /* Subtle effect */
+        }
+
+        /* Sticky header backdrop blur */
+        .sticky-header {
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        /* Custom form focus styles */
+        .form-input:focus {
+            border-color: #FBBF24;
+            /* amber-400 */
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.3);
+            outline: none;
+        }
+
+        /* Fade-in animation on scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.17, 0.55, 0.55, 1) 0s, transform 0.6s cubic-bezier(0.17, 0.55, 0.55, 1) 0s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom pricing badge */
+        .pricing-badge {
+            position: absolute;
+            top: -0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body class="bg-black">
+
+    <!-- Header / Sticky Navbar -->
+    <header id="navbar"
+        class="sticky top-0 z-50 w-full border-b border-gray-900 transition-all duration-300 sticky-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="#" class="flex-shrink-0 flex items-center" aria-label="Aura Homepage">
+                    <span class="text-3xl font-bold text-white">Aura<span class="text-amber-400">.</span></span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex md:items-center md:space-x-8">
+                    <a href="#about" class="text-gray-300 hover:text-white transition-colors duration-200">About</a>
+                    <a href="#services"
+                        class="text-gray-300 hover:text-white transition-colors duration-200">Services</a>
+                    <a href="#portfolio"
+                        class="text-gray-300 hover:text-white transition-colors duration-200">Portfolio</a>
+                    <a href="#pricing" class="text-gray-300 hover:text-white transition-colors duration-200">Pricing</a>
+                    <a href="#contact" class="text-gray-300 hover:text-white transition-colors duration-200">Contact</a>
+                </nav>
+
+                <!-- Desktop CTA -->
+                <div class="hidden md:flex items-center">
+                    <a href="#contact"
+                        class="bg-amber-400 text-black px-5 py-2 rounded-lg font-semibold text-sm hover:bg-amber-300 transition-all duration-200 transform hover:scale-105">
+                        Book a Demo
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-300 hover:text-white" aria-label="Open main menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu"
+            class="md:hidden hidden absolute top-16 left-0 w-full bg-black border-b border-gray-900 shadow-lg">
+            <div class="px-5 pt-2 pb-5 space-y-3">
+                <a href="#about" class="block text-gray-300 hover:text-white text-lg rounded-md">About</a>
+                <a href="#services" class="block text-gray-300 hover:text-white text-lg rounded-md">Services</a>
+                <a href="#portfolio" class="block text-gray-300 hover:text-white text-lg rounded-md">Portfolio</a>
+                <a href="#pricing" class="block text-gray-300 hover:text-white text-lg rounded-md">Pricing</a>
+                <a href="#contact" class="block text-gray-300 hover:text-white text-lg rounded-md">Contact</a>
+            </div>
+            <div class="px-5 pb-5">
+                <a href="#contact"
+                    class="block w-full text-center bg-amber-400 text-black px-5 py-3 rounded-lg font-semibold hover:bg-amber-300 transition-colors duration-200">
+                    Book a Demo
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Hero Section -->
+        <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden pt-16">
+            <!-- Particle Animation Canvas -->
+            <canvas id="hero-particles"></canvas>
+
+            <!-- Hero Content -->
+            <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 fade-in">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight mb-6">
+                    Elevate Your <span class="text-amber-400">Vision</span>.
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10">
+                    We build world-class digital solutions that drive growth for elite brands and forward-thinking
+                    enterprises.
+                </p>
+                <a href="#contact"
+                    class="bg-amber-400 text-black px-10 py-4 rounded-lg font-semibold text-lg hover:bg-amber-300 transition-all duration-200 transform hover:scale-105 inline-block shadow-lg shadow-amber-500/10">
+                    Get Started
+                </a>
+            </div>
+        </section>
+
+        <!-- About / Mission Section -->
+        <section id="about" class="py-20 sm:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in">
+                        <span class="text-amber-400 font-semibold uppercase tracking-wider">Our Mission</span>
+                        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mt-4 mb-6">
+                            We Are The Architects of What's Next.
+                        </h2>
+                        <p class="text-lg text-gray-300 mb-8">
+                            Aura is not just an agency; we are your strategic partner. We merge intelligent design with
+                            transformative technology to create digital experiences that command attention and deliver
+                            unparalleled results.
+                        </p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="bg-gray-900 border border-gray-800 p-6 rounded-lg">
+                                <span class="text-4xl font-bold text-amber-400">99%</span>
+                                <p class="text-gray-400 mt-2">Client Satisfaction</p>
+                            </div>
+                            <div class="bg-gray-900 border border-gray-800 p-6 rounded-lg">
+                                <span class="text-4xl font-bold text-amber-400">150+</span>
+                                <p class="text-gray-400 mt-2">Projects Launched</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in">
+                        <!-- Placeholder for a premium image or video -->
+                        <div
+                            class="bg-gray-900 border border-gray-800 rounded-2xl aspect-video w-full h-full min-h-[300px] flex items-center justify-center">
+                            <img src="https://placehold.co/600x400/111827/f3f4f6?text=World-Class+Vision"
+                                alt="Abstract strategic visualization" class="w-full h-full object-cover rounded-2xl">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services / Solutions Section -->
+        <section id="services" class="py-20 sm:py-32 bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+                        Solutions That Define Industries
+                    </h2>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto mt-4">
+                        We provide a full spectrum of services designed to elevate your business from concept to market
+                        leader.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="bg-black p-8 rounded-2xl border border-gray-800 hover:border-amber-400/50 transition-all duration-300 transform hover:-translate-y-2 shadow-2xl shadow-black/30 fade-in"
+                        style="transition-delay: 100ms;">
+                        <div class="mb-6">
+                            <!-- SVG Icon: AI / CPU -->
+                            <svg class="w-10 h-10 text-amber-400" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                                <rect x="9" y="9" width="6" height="6"></rect>
+                                <line x1="9" y1="1" x2="9" y2="4"></line>
+                                <line x1="15" y1="1" x2="15" y2="4"></line>
+                                <line x1="9" y1="20" x2="9" y2="23"></line>
+                                <line x1="15" y1="20" x2="15" y2="23"></line>
+                                <line x1="20" y1="9" x2="23" y2="9"></line>
+                                <line x1="20" y1="14" x2="23" y2="14"></line>
+                                <line x1="1" y1="9" x2="4" y2="9"></line>
+                                <line x1="1" y1="14" x2="4" y2="14"></line>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">AI & Data Strategy</h3>
+                        <p class="text-gray-400">Leverage cutting-edge artificial intelligence to automate processes,
+                            unlock new insights, and create transformative products.</p>
+                    </div>
+
+                    <!-- Service Card 2 -->
+                    <div class="bg-black p-8 rounded-2xl border border-gray-800 hover:border-amber-400/50 transition-all duration-300 transform hover:-translate-y-2 shadow-2xl shadow-black/30 fade-in"
+                        style="transition-delay: 200ms;">
+                        <div class="mb-6">
+                            <!-- SVG Icon: Design / Pen Tool -->
+                            <svg class="w-10 h-10 text-amber-400" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                                <path d="M2 2l7.586 7.586"></path>
+                                <circle cx="11" cy="11" r="2"></circle>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">Bespoke Digital Design</h3>
+                        <p class="text-gray-400">Create unforgettable brand experiences with award-winning UI/UX design
+                            that is both beautiful and conversion-optimized.</p>
+                    </div>
+
+                    <!-- Service Card 3 -->
+                    <div class="bg-black p-8 rounded-2xl border border-gray-800 hover:border-amber-400/50 transition-all duration-300 transform hover:-translate-y-2 shadow-2xl shadow-black/30 fade-in"
+                        style="transition-delay: 300ms;">
+                        <div class="mb-6">
+                            <!-- SVG Icon: Consulting / Bar Chart -->
+                            <svg class="w-10 h-10 text-amber-400" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="20" x2="12" y2="10"></line>
+                                <line x1="18" y1="20" x2="18" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="16"></line>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">Enterprise Consulting</h3>
+                        <p class="text-gray-400">Navigate complex market challenges with strategic guidance on
+                            technology adoption, digital transformation, and scaling.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio / Case Studies Section -->
+        <section id="portfolio" class="py-20 sm:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+                        Proven Excellence
+                    </h2>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto mt-4">
+                        We don't just build products; we build legacies. See our work in action.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Portfolio Item 1 -->
+                    <a href="#" class="group relative overflow-hidden rounded-2xl fade-in"
+                        style="transition-delay: 100ms;">
+                        <img src="https://placehold.co/800x600/111827/f59e0b?text=Project+Nova"
+                            alt="Project Nova Showcase"
+                            class="w-full h-96 object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8">
+                            <span class="text-amber-400 font-semibold">Fintech SaaS</span>
+                            <h3 class="text-3xl font-bold text-white mt-2">Project Nova</h3>
+                        </div>
+                    </a>
+
+                    <!-- Portfolio Item 2 -->
+                    <a href="#" class="group relative overflow-hidden rounded-2xl fade-in"
+                        style="transition-delay: 200ms;">
+                        <img src="https://placehold.co/800x600/1f2937/f59e0b?text=Quantum+AI" alt="Quantum AI Showcase"
+                            class="w-full h-96 object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8">
+                            <span class="text-amber-400 font-semibold">AI Research</span>
+                            <h3 class="text-3xl font-bold text-white mt-2">Quantum AI</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-20 sm:py-32 bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+                        Trusted by The Best
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div class="bg-black p-8 rounded-2xl border border-gray-800 shadow-2xl shadow-black/30 fade-in"
+                        style="transition-delay: 100ms;">
+                        <p class="text-lg text-gray-300 italic mb-6">
+                            "Aura transformed our entire platform. Their attention to detail and commitment to
+                            excellence is unmatched. A pleasure to work with."
+                        </p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/100x100/374151/f3f4f6?text=SC" alt="Sarah Chen"
+                                class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-gray-700">
+                            <div>
+                                <p class="text-white font-semibold">Sarah Chen</p>
+                                <p class="text-amber-400 text-sm">CEO, Innovatech</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="bg-black p-8 rounded-2xl border border-gray-800 shadow-2xl shadow-black/30 fade-in"
+                        style="transition-delay: 200ms;">
+                        <p class="text-lg text-gray-300 italic mb-6">
+                            "The strategic insights from Aura's team were a game-changer. We saw a 200% increase in user
+                            engagement."
+                        </p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/100x100/374151/f3f4f6?text=MJ" alt="Michael Jones"
+                                class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-gray-700">
+                            <div>
+                                <p class="text-white font-semibold">Michael Jones</p>
+                                <p class="text-amber-400 text-sm">CTO, Quantum AI</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="bg-black p-8 rounded-2xl border border-gray-800 shadow-2xl shadow-black/30 fade-in"
+                        style="transition-delay: 300ms;">
+                        <p class="text-lg text-gray-300 italic mb-6">
+                            "Simply the best. They delivered a world-class product on a tight deadline without
+                            compromising on quality."
+                        </p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/100x100/374151/f3f4f6?text=ER" alt="Emily Rodriguez"
+                                class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-gray-700">
+                            <div>
+                                <p class="text-white font-semibold">Emily Rodriguez</p>
+                                <p class="text-amber-400 text-sm">Founder, Project Nova</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-20 sm:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+                        Find Your Edge
+                    </h2>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto mt-4">
+                        Simple, transparent pricing for ambitious teams. No hidden fees.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
+                    <!-- Pricing Plan 1: Standard -->
+                    <div class="bg-gray-900 p-8 rounded-2xl border border-gray-800 h-full flex flex-col fade-in"
+                        style="transition-delay: 100ms;">
+                        <h3 class="text-xl font-semibold text-amber-400 uppercase mb-4">Growth</h3>
+                        <p class="text-5xl font-bold text-white mb-2">$9,999</p>
+                        <p class="text-gray-400 mb-6">/one-time project</p>
+                        <ul class="space-y-4 text-gray-300 mb-8 flex-grow">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Core Module Development
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                UI/UX Design (10 Screens)
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Standard Support
+                            </li>
+                        </ul>
+                        <a href="#contact"
+                            class="w-full text-center bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors duration-200 block">
+                            Choose Plan
+                        </a>
+                    </div>
+
+                    <!-- Pricing Plan 2: Highlighted -->
+                    <div class="bg-black p-8 rounded-2xl border-2 border-amber-400 relative shadow-2xl shadow-amber-500/10 flex flex-col transform lg:scale-110 fade-in"
+                        style="transition-delay: 200ms;">
+                        <span
+                            class="pricing-badge bg-amber-400 text-black text-xs font-bold uppercase px-3 py-1 rounded-full">Most
+                            Popular</span>
+                        <h3 class="text-xl font-semibold text-amber-400 uppercase mb-4 mt-5">Pro</h3>
+                        <p class="text-5xl font-bold text-white mb-2">$24,999</p>
+                        <p class="text-gray-400 mb-6">/one-time project</p>
+                        <ul class="space-y-4 text-gray-300 mb-8 flex-grow">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Everything in Growth
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                AI Model Integration
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Full Brand Strategy
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Priority Support
+                            </li>
+                        </ul>
+                        <a href="#contact"
+                            class="w-full text-center bg-amber-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-amber-300 transition-all duration-200 transform hover:scale-105 block">
+                            Get Started
+                        </a>
+                    </div>
+
+                    <!-- Pricing Plan 3: Enterprise -->
+                    <div class="bg-gray-900 p-8 rounded-2xl border border-gray-800 h-full flex flex-col fade-in"
+                        style="transition-delay: 300ms;">
+                        <h3 class="text-xl font-semibold text-amber-400 uppercase mb-4">Enterprise</h3>
+                        <p class="text-5xl font-bold text-white mb-2">Custom</p>
+                        <p class="text-gray-400 mb-6">/let's talk</p>
+                        <ul class="space-y-4 text-gray-300 mb-8 flex-grow">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Everything in Pro
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Bespoke AI Model Training
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Dedicated Team
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-400 mr-3" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                24/7/365 Support
+                            </li>
+                        </ul>
+                        <a href="#contact"
+                            class="w-full text-center bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors duration-200 block">
+                            Contact Sales
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact / Lead Form Section -->
+        <section id="contact" class="py-20 sm:py-32 bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+                    <!-- Contact Info -->
+                    <div class="fade-in">
+                        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+                            Let's Build Together.
+                        </h2>
+                        <p class="text-lg text-gray-300 mb-8">
+                            We're ready to hear your big idea. Fill out the form, and our team will get back to you
+                            within 24 hours.
+                        </p>
+                        <div class="space-y-6">
+                            <a href="mailto:hello@aura.com" class="flex items-center group">
+                                <svg class="w-6 h-6 text-amber-400 mr-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                    </path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                <span
+                                    class="text-lg text-gray-300 group-hover:text-white transition-colors">hello@aura.com</span>
+                            </a>
+                            <a href="tel:+15551234567" class="flex items-center group">
+                                <svg class="w-6 h-6 text-amber-400 mr-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                    </path>
+                                </svg>
+                                <span class="text-lg text-gray-300 group-hover:text-white transition-colors">+1 (555)
+                                    123-4567</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <form id="contact-form"
+                        class="bg-black p-8 sm:p-10 rounded-2xl border border-gray-800 shadow-2xl shadow-black/30 space-y-6 fade-in"
+                        style="transition-delay: 100ms;">
+                        <div>
+                            <label for="name" class="hidden">Full Name</label>
+                            <input type="text" name="name" id="name" placeholder="Full Name" required
+                                class="w-full bg-gray-900 border-gray-700 rounded-lg px-4 py-3 text-white border focus:border-amber-400 focus:ring-0 form-input transition-colors">
+                        </div>
+                        <div>
+                            <label for="email" class="hidden">Email Address</label>
+                            <input type="email" name="email" id="email" placeholder="Email Address" required
+                                class="w-full bg-gray-900 border-gray-700 rounded-lg px-4 py-3 text-white border focus:border-amber-400 focus:ring-0 form-input transition-colors">
+                        </div>
+                        <div>
+                            <label for="company" class="hidden">Company</label>
+                            <input type="text" name="company" id="company" placeholder="Company (Optional)"
+                                class="w-full bg-gray-900 border-gray-700 rounded-lg px-4 py-3 text-white border focus:border-amber-400 focus:ring-0 form-input transition-colors">
+                        </div>
+                        <div>
+                            <label for="message" class="hidden">Message</label>
+                            <textarea name="message" id="message" rows="5" placeholder="How can we help?" required
+                                class="w-full bg-gray-900 border-gray-700 rounded-lg px-4 py-3 text-white border focus:border-amber-400 focus:ring-0 form-input transition-colors"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit"
+                                class="w-full bg-amber-400 text-black px-8 py-3 rounded-lg font-semibold text-lg hover:bg-amber-300 transition-all duration-200 transform hover:scale-105">
+                                Send Message
+                            </button>
+                        </div>
+                        <p id="form-status" class="text-center text-sm text-gray-400"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="text-3xl font-bold text-white">Aura<span class="text-amber-400">.</span></a>
+                    <p class="text-gray-400 mt-2 text-sm">&copy; 2025 Aura Inc. All rights reserved.</p>
+                </div>
+
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                            </path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors" aria-label="Dribbble">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path
+                                d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 4.66-13.37 2.15m1.52 9.15c4.62-1.05 8.64-4.46 11.02-9.42">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Mobile Menu Toggle ---
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = mobileMenu.querySelectorAll('a');
+
+            const toggleMenu = () => {
+                mobileMenu.classList.toggle('hidden');
+                // Toggle ARIA expanded attribute
+                const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                menuButton.setAttribute('aria-expanded', !isExpanded);
+            };
+
+            menuButton.addEventListener('click', toggleMenu);
+            // Close menu when a link is clicked
+            navLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // --- Fade-in on Scroll Animation ---
+            try {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.1 // Trigger when 10% of the element is visible
+                });
+
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    observer.observe(el);
+                });
+            } catch (e) {
+                console.warn("Intersection Observer not supported, animations disabled.");
+                // Fallback for older browsers
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }
+
+            // --- Contact Form Submission ---
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Replace this with your actual form submission logic (e.g., fetch to an API)
+                formStatus.textContent = 'Sending...';
+
+                // Simulate API call
+                setTimeout(() => {
+                    formStatus.textContent = 'Message sent! We will be in touch soon.';
+                    formStatus.style.color = '#34D399'; // green-400
+                    contactForm.reset();
+                    setTimeout(() => {
+                        formStatus.textContent = '';
+                        formStatus.style.color = '';
+                    }, 5000);
+                }, 1500);
+            });
+
+            // --- Hero Particle Animation (three.js) ---
+            try {
+                let scene, camera, renderer, points;
+                let mouseX = 0, mouseY = 0;
+                const canvas = document.getElementById('hero-particles');
+
+                function initParticles() {
+                    const container = document.getElementById('hero');
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+
+                    // Scene
+                    scene = new THREE.Scene();
+
+                    // Camera
+                    camera = new THREE.PerspectiveCamera(75, width / height, 1, 1000);
+                    camera.position.z = 300;
+
+                    // Particle Geometry
+                    const particleCount = 2000;
+                    const particles = new THREE.BufferGeometry();
+                    const positions = new Float32Array(particleCount * 3);
+
+                    for (let i = 0; i < particleCount * 3; i++) {
+                        positions[i] = (Math.random() - 0.5) * 1000;
+                    }
+                    particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+                    // Particle Material
+                    const material = new THREE.PointsMaterial({
+                        color: 0xfbbf24, // amber-400
+                        size: 1.5,
+                        blending: THREE.AdditiveBlending,
+                        transparent: true,
+                        opacity: 0.7
+                    });
+
+                    // Points
+                    points = new THREE.Points(particles, material);
+                    scene.add(points);
+
+                    // Renderer
+                    renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+                    renderer.setSize(width, height);
+                    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+                    // Event Listeners
+                    document.addEventListener('mousemove', onDocumentMouseMove);
+                    window.addEventListener('resize', onWindowResize);
+                }
+
+                function onWindowResize() {
+                    const container = document.getElementById('hero');
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(width, height);
+                }
+
+                function onDocumentMouseMove(event) {
+                    const container = document.getElementById('hero');
+                    const rect = container.getBoundingClientRect();
+                    mouseX = (event.clientX - rect.left - rect.width / 2) * 0.1;
+                    mouseY = (event.clientY - rect.top - rect.height / 2) * 0.1;
+                }
+
+                function animateParticles() {
+                    requestAnimationFrame(animateParticles);
+
+                    const time = Date.now() * 0.0001;
+
+                    // Subtle rotation
+                    points.rotation.x = time * 0.2;
+                    points.rotation.y = time * 0.1;
+
+                    // Mouse parallax effect
+                    camera.position.x += (mouseX - camera.position.x) * 0.02;
+                    camera.position.y += (-mouseY - camera.position.y) * 0.02;
+                    camera.lookAt(scene.position);
+
+                    renderer.render(scene, camera);
+                }
+
+                initParticles();
+                animateParticles();
+
+            } catch (e) {
+                console.error("Failed to initialize hero particle animation:", e);
+                // Hide canvas if it fails
+                const canvas = document.getElementById('hero-particles');
+                if (canvas) canvas.style.display = 'none';
+            }
+
+        });
+    </script>
+</body>
+
+</html>
